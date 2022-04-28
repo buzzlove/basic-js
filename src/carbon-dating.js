@@ -18,8 +18,9 @@ const HALF_LIFE_PERIOD = 5730;
  *
  */
  function dateSample(sampleActivity) {
-  const LN_TWO = 0.693
+  const LN_TWO = 0.693;
   const RATE_CONSTANT = LN_TWO/HALF_LIFE_PERIOD;
+  
   if(typeof(sampleActivity) === 'string' && +sampleActivity > 0){
       const RATIO = Math.ceil(Math.log(MODERN_ACTIVITY/+sampleActivity)/RATE_CONSTANT);
       return RATIO > 0 ? RATIO : false;
