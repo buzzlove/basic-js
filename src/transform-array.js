@@ -13,10 +13,40 @@ const { NotImplementedError } = require('../extensions/index.js');
  * transform([1, 2, 3, '--discard-prev', 4, 5]) => [1, 2, 4, 5]
  * 
  */
-function transform(/* arr */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+ function transform(array) {
+  if(!Array.isArray(array)){throw new Error("'arr' parameter must be an instance of the Array!")};
+  let arr = [...array];
+  
+array.forEach((item,index) => {if(typeof(item) === 'string'){transformationArray(item, index)}})
+
+function transformationArray(item, index){
+   switch (item){
+      case '--discard-next':          
+          (index +1 !== (arr.length)) ?  arr.splice(index+1, 1):'';
+          arr.splice(arr.indexOf('--discard-next'), 1);
+          break;
+      case '--discard-prev':
+          if(array[index-2] !== '--discard-next'){
+              index > 0 ? arr.splice(index-1, 1):'';
+          }
+          arr.splice(arr.indexOf('--discard-prev'), 1);
+          break; 
+      case '--double-next':
+          
+          (index+1 !== arr.length) ? arr.splice(index+1, 0, arr[index+1]) : '';
+          arr.splice(arr.indexOf('--double-next'), 1);
+          break;
+      case '--double-prev':
+          if(array[index-2] !== '--discard-next'){
+              (index > 0) ? arr.splice(index-1, 0, arr[index-1]) : '';
+              }  
+          arr.splice(arr.indexOf('--double-prev'), 1);          
+          break;                        
+   }
 }
+
+return arr;
+} 
 
 module.exports = {
   transform
